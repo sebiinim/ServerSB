@@ -34,13 +34,13 @@ export class AuthService {
         const {nickname, password} = createUserDto;
         const user = await this.userRepository.findOne({where: {nickname}});
 
-        if(user && (await bcrypt.compare(password, user.password))){
+        if(user.password == password ){
             const payload = {nickname};
             const accessToken = await this.jwtService.sign(payload);
 
             return {accessToken};
         } else {
-            throw new UnauthorizedException('login failed');
+            throw new UnauthorizedException('login failed!');
         }
     }
 
